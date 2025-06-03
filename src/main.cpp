@@ -42,7 +42,9 @@ void convertToRegistance() {
   float vout;
   for (int j = 0; j < 2; j++) {
     for (int i = 0; i < NCHANNELS; i++) {
-      vout = 3.3 * adc_values[j][i] / 4096.0;
+      // If you use internal refernce voltage, set 2.5[V]
+      float vref = 2.5;
+      vout = vref * adc_values[j][i] / 4096.0;
       fsr_registance[j][i] = 22.4 / vout - 6.8;
     }
   }
