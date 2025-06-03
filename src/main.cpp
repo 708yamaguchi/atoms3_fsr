@@ -28,7 +28,7 @@ static const float force_resistance_data[NUM_POINTS][2] = {
     {2000.0, 1.5}};
 
 int adc_values[2][NCHANNELS];
-float adc_registers[2][NCHANNELS];
+float fsr_registance[2][NCHANNELS];
 
 void readADC() {
   for (int j = 0; j < 2; j++) {
@@ -43,7 +43,7 @@ void convertToRegistance() {
   for (int j = 0; j < 2; j++) {
     for (int i = 0; i < NCHANNELS; i++) {
       vout = 3.3 * adc_values[j][i] / 4096.0;
-      adc_registers[j][i] = 22.4 / vout - 6.8;
+      fsr_registance[j][i] = 22.4 / vout - 6.8;
     }
   }
 }
@@ -108,8 +108,8 @@ void updateLCD() {
   for (int i = 0; i < NCHANNELS; i++) {
     lcd.setTextColor(WHITE, BLACK);
     lcd.printf(" CH%d   ", i);
-    int force1 = (int)RegistanceToForce(adc_registers[0][i]);
-    int force2 = (int)RegistanceToForce(adc_registers[1][i]);
+    int force1 = (int)RegistanceToForce(fsr_registance[0][i]);
+    int force2 = (int)RegistanceToForce(fsr_registance[1][i]);
     lcd.setTextColor(GREEN, BLACK);
     if (force1 == -1) {
         lcd.printf("%4s", "MAX");
